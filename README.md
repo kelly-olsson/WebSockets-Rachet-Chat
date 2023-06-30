@@ -29,3 +29,7 @@ $ telnet localhost 8080
 $ telnet localhost 8080
 ```
 
+How to exit the Telnet session:
+
+1. Type "Ctrl + ]" on your keyboard
+2. Type "q"
