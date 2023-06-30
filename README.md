@@ -8,3 +8,24 @@ php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff0319065
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 ```
+
+To communicate between 2 connections (on Windows, your OS may be different):
+
+Make sure Telnet is installed. It is not installed by default on some versions of Windows. Here are the steps:
+
+    Press Win + X, then choose Apps and Features.
+    On the right side, click on Programs and Features.
+    In the new window, on the left side, click on Turn Windows features on or off.
+    Scroll down until you find Telnet Client, check its box and click on OK.
+    Windows will search for the required files and apply the changes.
+
+Run in 3 different terminal windows: 
+
+```bash
+$ php bin/chat-server.php
+
+$ telnet localhost 8080
+
+$ telnet localhost 8080
+```
+
