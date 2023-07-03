@@ -17,7 +17,6 @@ $session = mt_rand(1,999);
             </div>
         </div>
     </div>
-    </div>
 </main>
 </body>
 </html>
