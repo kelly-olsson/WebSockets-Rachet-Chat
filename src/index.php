@@ -2,9 +2,10 @@
 $session = mt_rand(1,999);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en-CA">
 <head>
     <link rel="stylesheet" href="../vendor/twbs/bootstrap/dist/css/bootstrap.css">
+    <title>Rachet Chat App</title>
 </head>
 <body>
 <main role="main">
@@ -12,7 +13,7 @@ $session = mt_rand(1,999);
         <div class="row">
             <div class="col-12">
                 <div id="chat_output"></div>
-                <textarea class="form-control" id="chat_input" placeholder="Please press <Enter> after typing something"></textarea>
+                <label for="chat_input"></label><textarea class="form-control" id="chat_input" placeholder="Please press <Enter> after typing something"></textarea>
             </div>
         </div>
     </div>
@@ -49,7 +50,7 @@ $session = mt_rand(1,999);
                         }
                         else{
                             var div_left = $("<div class='col-4'>&nbsp;</div>");
-                            var my_user = $("<div>Welcome! You have joined this chat room.</div>").addClass('alert alert-primary');
+                            var my_user = $("<div>Welcome to the chat room! Your user id is "+ json.user_id +".</div>").addClass('alert alert-primary');
                             var div_row = $("<div class='row'></div>").append(div_left).append(my_user);
                             $('#chat_output').append(my_user);
                         }
