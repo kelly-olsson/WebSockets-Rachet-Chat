@@ -33,3 +33,10 @@ How to exit the Telnet session:
 
 1. Type "Ctrl + ]" on your keyboard
 2. Type "q"
+
+
+------------------------
+
+Above was for bare bones implementation 
+
+To run current implementation, simply run chat server script, and then run client with `php -S localhost:8000`
