@@ -4,49 +4,66 @@ $session = mt_rand(1, 999);
 <!DOCTYPE html>
 <html lang="en-CA">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendor/twbs/bootstrap/dist/css/bootstrap.css">
     <title>Rachet Chat App</title>
     <style>
-        .chat-container {
-            height: 80vh;
-            border: 1px solid #ddd;
+        .chat-column {
+            border: 1px solid #dee2e6;
             border-radius: 5px;
+            padding: 15px;
+            background-color: white;
+            height: calc(100vh - 100px);
             overflow-y: auto;
-            padding: 10px;
             margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-
         .chat-message {
-            width: 70%;
+            max-width: 75%;
             padding: 10px;
+            border-radius: 10px;
             margin-bottom: 10px;
-            border-radius: 5px;
+            line-height: 1.5;
+            display: inline-block;
         }
-
-        .mine {
-            margin-left: auto;
-            background-color: #dcf8c6;
+        .my-message {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
         }
-
-        .theirs {
-            margin-right: auto;
-            background-color: #f8f8f8;
+        .other-message {
+            background-color: #f8f9fa;
         }
-
-        textarea {
-            resize: none;
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .my-message-container {
+            align-self: flex-end;
+        }
+        body {
+            background-color: #f8f9fa;
         }
     </style>
 </head>
 <body>
-<main role="main" class="container">
-    <h1 class="text-center my-4">Rachet Chat App</h1>
-    <div id="chat_output" class="chat-container"></div>
-    <label for="chat_input"></label><textarea class="form-control" id="chat_input" placeholder="Please press <Enter> after typing something"></textarea>
+<main role="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h2>Rachet Chat App</h2>
+            </div>
+            <div class="col-12 chat-column">
+                <div id="chat_output"></div>
+                <label for="chat_input"></label><textarea class="form-control" id="chat_input"
+                                                          placeholder="Please press <Enter> after typing something"></textarea>
+            </div>
+        </div>
+    </div>
 </main>
-</body>
-</html>
-
 <script src="https://code.jquery.com/jquery-1.11.3.js" type="text/javascript"></script>
 <script src="../vendor/twbs/bootstrap/dist/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -82,8 +99,9 @@ $session = mt_rand(1, 999);
                         }
                         break;
                     case 'chat':
-                        $chat = $(`<div class="chat-message alert ${json.is_it_me ? 'mine text-right' : 'theirs'}"><strong>${json.is_it_me ? 'You say:' : json.user_id + ' says:'}</strong><br/>${json.msg}</div>`);
-                        $chat_output.append($chat);
+                        $chat = $(`<div class="chat-message ${json.is_it_me ? 'my-message' : 'other-message'}"><strong>${json.is_it_me ? 'You say:' : 'User ' + json.user_id + ' says:'}</strong><br/>${json.msg}</div>`);
+                        let $chat_container = $(`<div class="chat-container ${json.is_it_me ? 'my-message-container' : ''}"></div>`).append($chat);
+                        $chat_output.append($chat_container);
                         scrollToBottom();
                         break;
                 }
@@ -115,3 +133,5 @@ $session = mt_rand(1, 999);
         });
     });
 </script>
+</body>
+</html>
