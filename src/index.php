@@ -26,64 +26,58 @@ $session = mt_rand(1, 999);
 <script src="../vendor/twbs/bootstrap/dist/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
     jQuery(function ($) {
-        var websocket_server = new WebSocket("ws://localhost:8182/");
+        const websocket_server = new WebSocket("ws://localhost:8182/");
+        const $chat_output = $('#chat_output');
+
         websocket_server.onopen = function (e) {
-            websocket_server.send(
-                JSON.stringify({
-                    'type': 'open',
-                    'user_id':<?php echo $session; ?>
-                })
-            );
+            websocket_server.send(JSON.stringify({
+                'type': 'open',
+                'user_id':<?php echo $session; ?>
+            }));
         };
 
         websocket_server.onmessage = function (e) {
-            let div_container;
-            let div_row;
-            let div_left;
-            let div_right;
-            console.log('Received:', e.data);
             try {
                 const json = JSON.parse(e.data);
+                let $alert;
+                let $chat;
+                let $div_right, $div_left;
+
                 switch (json.type) {
                     case 'open':
                         if (!json.is_it_me) {
-                            const new_user = $("<div>New user <a href='#' class='alert-link'>" + json.user_id + "</a> just joined this chat room.</div>").addClass('alert alert-secondary');
-                            div_right = $("<div class='col-4'>&nbsp;</div>");
-                            $("<div class='row'></div>").append(new_user).append(div_right);
-                            $('#chat_output').append(new_user);
+                            $alert = $("<div>New user <a href='#' class='alert-link'>" + json.user_id + "</a> just joined this chat room.</div>").addClass('alert alert-secondary');
+                            $chat_output.append($alert);
                         } else {
-                            div_left = $("<div class='col-4'>&nbsp;</div>");
-                            const my_user = $("<div>Welcome to the chat room! Your user id is " + json.user_id + ".</div>").addClass('alert alert-primary');
-                            $("<div class='row'></div>").append(div_left).append(my_user);
-                            $('#chat_output').append(my_user);
+                            $alert = $("<div>Welcome to the chat room! Your user id is <a href='#' class='alert-link'>" + json.user_id + "</a>.</div>").addClass('alert alert-primary');
+                            $chat_output.append($alert);
                         }
-
                         break;
                     case 'chat':
                         if (!json.is_it_me) {
-                            const new_chat = $("<div><b><u>" + json.user_id + " says:</u></b><br/>" + json.msg + "</div>").addClass('col-6 alert alert-secondary');
-                            div_right = $("<div class='col-6'>&nbsp;</div>");
-                            div_row = $("<div class='row'></div>").append(new_chat).append(div_right);
-                            div_container = $("<div class='container'></div>").append(div_row);
-                            $('#chat_output').append(div_container);
+                            $chat = $("<div><b><u>" + json.user_id + " says:</u></b><br/>" + json.msg + "</div>").addClass('col-6 alert alert-secondary');
+                            $div_right = $("<div class='col-6'>&nbsp;</div>");
+                            const $div_row = $("<div class='row'></div>").append($chat).append($div_right);
+                            const $div_container = $("<div class='container'></div>").append($div_row);
+                            $chat_output.append($div_container);
                         } else {
-                            div_left = $("<div class='col-6'>&nbsp;</div>");
-                            const my_chat = $("<div><b><u>You say:</u></b><br/>" + json.msg + "</div>").addClass('col-6 alert alert-primary');
-                            div_row = $("<div class='row'></div>").append(div_left).append(my_chat);
-                            div_container = $("<div class='container'></div>").append(div_row);
-                            $('#chat_output').append(div_container);
+                            $chat = $("<div><b><u>You say:</u></b><br/>" + json.msg + "</div>").addClass('col-6 alert alert-primary');
+                            $div_left = $("<div class='col-6'>&nbsp;</div>");
+                            const $div_row = $("<div class='row'></div>").append($div_left).append($chat);
+                            const $div_container = $("<div class='container'></div>").append($div_row);
+                            $chat_output.append($div_container);
                         }
                         break;
                 }
             } catch (err) {
                 console.error('Could not parse JSON:', e.data);
             }
-        }
+        };
 
         websocket_server.onerror = function (e) {
             console.error('WebSocket Error:', e);
-            const error_msg = $("<div>There was a problem while sending your message.</div>").addClass('alert alert-danger');
-            $('#chat_output').append(error_msg);
+            const $error_msg = $("<div>There was a problem while sending your message.</div>").addClass('alert alert-danger');
+            $chat_output.append($error_msg);
         }
 
         // Events
@@ -91,13 +85,11 @@ $session = mt_rand(1, 999);
             if (e.keyCode === 13 && !e.shiftKey) {
                 const chat_msg = $(this).val();
 
-                websocket_server.send(
-                    JSON.stringify({
-                        'type': 'chat',
-                        'user_id':<?php echo $session; ?>,
-                        'chat_msg': chat_msg
-                    })
-                );
+                websocket_server.send(JSON.stringify({
+                    'type': 'chat',
+                    'user_id':<?php echo $session; ?>,
+                    'chat_msg': chat_msg
+                }));
 
                 $(this).val('');
             }
