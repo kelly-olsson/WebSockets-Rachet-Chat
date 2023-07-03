@@ -13,11 +13,13 @@ $session = mt_rand(1, 999);
             padding: 15px;
             background-color: white;
             height: calc(100vh - 100px);
-            overflow-y: auto;
-            margin-bottom: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-end;
+        }
+        .chat-messages {
+            overflow-y: auto;
+            flex-grow: 1;
         }
         .chat-message {
             max-width: 75%;
@@ -44,6 +46,9 @@ $session = mt_rand(1, 999);
         .my-message-container {
             align-self: flex-end;
         }
+        #chat_input {
+            height: 100px;
+        }
         body {
             background-color: #f8f9fa;
         }
@@ -57,7 +62,7 @@ $session = mt_rand(1, 999);
                 <h2>Rachet Chat App</h2>
             </div>
             <div class="col-12 chat-column">
-                <div id="chat_output"></div>
+                <div id="chat_output" class="chat-messages"></div>
                 <label for="chat_input"></label><textarea class="form-control" id="chat_input"
                                                           placeholder="Please press <Enter> after typing something"></textarea>
             </div>
@@ -99,7 +104,7 @@ $session = mt_rand(1, 999);
                         }
                         break;
                     case 'chat':
-                        $chat = $(`<div class="chat-message ${json.is_it_me ? 'my-message' : 'other-message'}"><strong>${json.is_it_me ? 'You say:' : 'User ' + json.user_id + ' says:'}</strong><br/>${json.msg}</div>`);
+                        $chat = $(`<div class="chat-message ${json.is_it_me ? 'my-message' : 'other-message'}"><strong>${json.is_it_me ? 'You say:' : json.user_id + ' says:'}</strong><br/>${json.msg}</div>`);
                         let $chat_container = $(`<div class="chat-container ${json.is_it_me ? 'my-message-container' : ''}"></div>`).append($chat);
                         $chat_output.append($chat_container);
                         scrollToBottom();
