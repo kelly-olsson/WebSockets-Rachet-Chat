@@ -52,6 +52,11 @@ $session = mt_rand(1, 999);
         body {
             background-color: #f8f9fa;
         }
+        .text-center {
+            font-size: 0.9em;
+            color: gray;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -94,17 +99,17 @@ $session = mt_rand(1, 999);
                 switch (json.type) {
                     case 'open':
                         if (!json.is_it_me) {
-                            $alert = $(`<div>New user <a href='#' class='alert-link'>${json.user_id}</a> just joined this chat room.</div>`).addClass('alert alert-info');
+                            $alert = $(`<div>--- New user <strong>${json.user_id}</strong> just joined this chat room. ---</div><br>`).addClass('text-center');
                             $chat_output.append($alert);
                             scrollToBottom();
                         } else {
-                            $alert = $(`<div>Welcome to the chat room! Your user id is <a href='#' class='alert-link'>${json.user_id}</a>.</div>`).addClass('alert alert-primary');
+                            $alert = $(`<div>Welcome to the chat room! Your user id is <strong>${json.user_id}</strong>.</div>`).addClass('alert alert-primary');
                             $chat_output.append($alert);
                             scrollToBottom();
                         }
                         break;
                     case 'chat':
-                        $chat = $(`<div class="chat-message ${json.is_it_me ? 'my-message' : 'other-message'}"><strong>${json.is_it_me ? 'You say:' : json.user_id + ' says:'}</strong><br/>${json.msg}</div>`);
+                        $chat = $(`<div class="chat-message ${json.is_it_me ? 'my-message' : 'other-message'}"><strong>${json.is_it_me ? 'You say:' : 'User ' + json.user_id + ' says:'}</strong><br/>${json.msg}</div>`);
                         let $chat_container = $(`<div class="chat-container ${json.is_it_me ? 'my-message-container' : ''}"></div>`).append($chat);
                         $chat_output.append($chat_container);
                         scrollToBottom();
