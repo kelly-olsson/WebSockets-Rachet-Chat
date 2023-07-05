@@ -3,6 +3,10 @@ namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
+/**
+ * NOTE: resourceId is not a part of ConnectionInterface, but is accessible because of the actual type of object
+ * received (IoConnection) in $conn->resourceId.
+ */
 class Chat implements MessageComponentInterface {
     protected \SplObjectStorage $clients;
 
@@ -16,11 +20,10 @@ class Chat implements MessageComponentInterface {
         echo "New connection! ({$conn->resourceId})\n";
     }
 
-    public function onMessage(ConnectionInterface $from, $data): void
+    public function onMessage(ConnectionInterface $from, $msg): void
     {
-        $num_of_clients = count($this->clients);
-        $data = json_decode($data);
-        $type = $data->type;
+        $msg = json_decode($msg);
+        $type = $msg->type;
 
         switch ($type) {
             case 'open':
@@ -35,7 +38,7 @@ class Chat implements MessageComponentInterface {
                 break;
             case 'chat':
                 $user_id = $from->resourceId;
-                $chat_msg = $data->chat_msg;
+                $chat_msg = $msg->chat_msg;
 
                 $from->send(json_encode(array("type"=>$type,"msg"=>$chat_msg, "user_id"=>$user_id, "is_it_me"=>true)));
                 foreach($this->clients as $client){
