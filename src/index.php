@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="../vendor/twbs/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../styles/custom.css">
-    <title>Rachet Chat App</title>
+    <title>Ratchet Chat App</title>
 </head>
 <body>
 <main role="main">
