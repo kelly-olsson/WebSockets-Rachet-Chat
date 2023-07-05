@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center mb-4">
-                <h2>Rachet Chat App</h2>
+                <h2>Ratchet Chat App</h2>
             </div>
             <div class="col-12 chat-column">
                 <div id="chat_output" class="chat-messages"></div>
