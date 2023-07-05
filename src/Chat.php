@@ -18,15 +18,13 @@ class Chat implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $data): void
     {
-        echo "Message received: $data\n";
-
         $num_of_clients = count($this->clients);
         $data = json_decode($data);
         $type = $data->type;
 
         switch ($type) {
             case 'open':
-                $user_id = $data->user_id;
+                $user_id = $from->resourceId;
                 $chat_msg = "";
 
                 $from->send(json_encode(array("type"=>$type,"msg"=>$chat_msg, "user_id"=>$user_id, "is_it_me"=>true)));
@@ -36,7 +34,7 @@ class Chat implements MessageComponentInterface {
                 }
                 break;
             case 'chat':
-                $user_id = $data->user_id;
+                $user_id = $from->resourceId;
                 $chat_msg = $data->chat_msg;
 
                 $from->send(json_encode(array("type"=>$type,"msg"=>$chat_msg, "user_id"=>$user_id, "is_it_me"=>true)));
