@@ -30,7 +30,7 @@
         // Scroll to bottom of chat on new message
         const scrollToBottom = () => $chat_output.scrollTop($chat_output[0].scrollHeight);
 
-        websocket_server.onopen = function (e) {
+        websocket_server.onopen = function () {
             websocket_server.send(JSON.stringify({
                 'type': 'open'
             }));
