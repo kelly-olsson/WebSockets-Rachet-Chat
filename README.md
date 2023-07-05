@@ -1,42 +1,56 @@
-Make sure to `composer install`
+# PHP Websockets with Ratchet
 
-(May or may not need to create composer.phar? Commands below if so:)
+This is a proof-of-concept project which demonstrates the use of websockets with PHP, using the Ratchet library. 
+The app showcases a simple chat room where multiple clients can connect and exchange messages in real-time.
 
-```bash
-php -r "copy('https://getcomposer.org/instaler', 'composer-setup.php');"
-php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-php composer-setup.php
-php -r "unlink('composer-setup.php');"
-```
-
-To communicate between 2 connections (on Windows, your OS may be different):
-
-Make sure Telnet is installed. It is not installed by default on some versions of Windows. Here are the steps:
-
-    Press Win + X, then choose Apps and Features.
-    On the right side, click on Programs and Features.
-    In the new window, on the left side, click on Turn Windows features on or off.
-    Scroll down until you find Telnet Client, check its box and click on OK.
-    Windows will search for the required files and apply the changes.
-
-Run in 3 different terminal windows: 
+## Project Structure
 
 ```bash
-$ php bin/chat-server.php
-
-$ telnet localhost 8080
-
-$ telnet localhost 8080
+.
+├── bin
+│   └── chat-server.php
+├── src
+│   ├── Chat.php
+│   └── index.php
+├── styles
+│   └── custom.css
+├── .gitignore
+├── composer.json
+├── composer.lock
+└── README.md
 ```
 
-How to exit the Telnet session:
+## Prerequisites
 
-1. Type "Ctrl + ]" on your keyboard
-2. Type "q"
+Ensure that you have PHP 8.2 installed on your machine.
 
+## Installation
 
-------------------------
+To install the necessary libraries, run the following command:
 
-Above was for bare bones implementation 
+```bash
+composer install
+```
 
-To run current implementation, simply run chat server script, and then run client with `php -S localhost:8000`
+## Running the App
+
+First, start the websocket server:
+
+```bash
+php bin/chat-server.php
+```
+
+This script initializes the websocket connections and starts listening for new ones.
+
+Then, in a separate terminal window, start the client by running:
+
+```bash
+php -S localhost:8000
+```
+
+Then, open your browser and navigate to http://localhost:8000 to access the chat room.
+
+## Acknowledgements
+
+* [Ratchet](http://socketo.me/), a PHP WebSockets library
+* [Bootstrap](https://getbootstrap.com/), for front-end styling
