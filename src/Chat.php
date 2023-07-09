@@ -32,7 +32,8 @@ class Chat implements MessageComponentInterface {
     // The onOpen method is called when a new connection is established. The client's connection is added to the
     // $clients SplObjectStorage.
     // NOTE: resourceId is not a part of ConnectionInterface, but is accessible because of the actual type of object
-    // received (IoConnection, a subclass of ConnectionInterface) in $conn->resourceId.
+    // received (IoConnection, a subclass of ConnectionInterface) in $conn->resourceId. The resourceId is a property of
+    // the IoConnection class which is a unique identifier assigned to the connection.
 
     public function onMessage(ConnectionInterface $from, $msg): void
     {
